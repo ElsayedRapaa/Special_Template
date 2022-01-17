@@ -1,0 +1,102 @@
+/* Start Global Rouls */
+
+:root {
+    --main-color: ;
+    --main-color-alt: ;
+    --main-back-color: ;
+    --gray-color: ;
+    --dark-color: ;
+    --white-color: ;
+    --padding-section: ;
+    --main-transition: ;
+    --border-radius: ;
+    --border-color: ;
+    --smaller-font: ;
+    --small-x-font: ;
+    --small-font: ;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.cairo {
+    font-family: 'Cairo', sans-serif;
+}
+
+body.robto {
+    font-family: 'Roboto', sans-serif;
+}
+
+body.open-sans {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body.poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+body.src-pro {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-upper {
+    text-transform: uppercase;
+}
+
+.container {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Start Media Query */
+
+
+/* Small Screen */
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+
+/* Medium Screen */
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+
+/* Large Screen */
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+
+/* End Media Query */
+
+
+/* End Global Rouls */
