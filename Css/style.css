@@ -1,19 +1,19 @@
 /* Start Global Rouls */
 
 :root {
-    --main-color: ;
-    --main-color-alt: ;
-    --main-back-color: ;
-    --gray-color: ;
-    --dark-color: ;
-    --white-color: ;
-    --padding-section: ;
-    --main-transition: ;
-    --border-radius: ;
-    --border-color: ;
-    --smaller-font: ;
-    --small-x-font: ;
-    --small-font: ;
+    --main-color: #2980b9;
+    --main-color-alt: #3498db;
+    --main-back-color: #2980b9;
+    --gray-color: #666;
+    --dark-color: #333;
+    --white-color: #FFF;
+    --padding-section: 100px;
+    --main-transition: 300ms;
+    --border-radius: 5px;
+    --border-color: #EEE;
+    --smaller-font: 10px;
+    --small-x-font: 12px;
+    --small-font: 14px;
 }
 
 * {
@@ -58,6 +58,45 @@ a {
     text-transform: uppercase;
 }
 
+.back-color {
+    background-color: var(--main-back-color);
+    color: var(--white-color);
+}
+
+.main-color {
+    color: var(--main-color);
+}
+
+.padding-section {
+    padding-top: var(--padding-section);
+    padding-bottom: var(--padding-section);
+}
+
+.flex-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-small {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.grid-big {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
 .container {
     padding-left: 20px;
     padding-right: 20px;
@@ -100,3 +139,30 @@ a {
 
 
 /* End Global Rouls */
+
+
+/* Start Header */
+
+.header {
+    position: relative;
+}
+
+
+/* Start navbar */
+
+.header .navbar {
+    height: 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+.header .navbar .links li {
+    display: inline-block;
+}
+
+
+/* End navbar */
+
+
+/* End Header */
