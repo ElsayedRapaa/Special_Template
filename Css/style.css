@@ -4,6 +4,7 @@
     --main-color: #2980b9;
     --main-color-alt: #3498db;
     --main-back-color: #2980b9;
+    --main-back-rgba: rgba(41, 128, 185, 0.3);
     --gray-color: #666;
     --dark-color: #333;
     --white-color: #FFF;
@@ -14,12 +15,18 @@
     --smaller-font: 10px;
     --small-x-font: 12px;
     --small-font: 14px;
+    --line-s-height: 1.6;
+    --line-x-height: 1.8;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+body {
+    transition: padding var(--main-transition);
 }
 
 body.cairo {
@@ -78,6 +85,12 @@ a {
     align-items: center;
 }
 
+.flex-r-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .flex-column {
     display: flex;
     flex-direction: column;
@@ -95,6 +108,12 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
+}
+
+.world {
+    background-color: var(--white-color);
+    padding: 2px 5px;
+    border-radius: 5px;
 }
 
 .overlay {
@@ -150,6 +169,103 @@ a {
 /* End Global Rouls */
 
 
+/* Start Settings */
+
+.settings {
+    position: fixed;
+    width: 250px;
+    height: 100vh;
+    padding: 20px 10px;
+    top: 0;
+    left: -250px;
+    background-color: #FFF;
+    z-index: 9999;
+    transition: left var(--main-transition);
+}
+
+.settings.open {
+    left: 0;
+}
+
+.settings .open-set {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background-color: #FFF;
+    top: 120px;
+    right: -30px;
+    line-height: 37px;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+}
+
+.settings .open-set i {
+    color: var(--main-color);
+    font-size: 1.2rem;
+}
+
+.settings .color-option,
+.settings .background-option {
+    background-color: #DDD;
+    border-radius: 10px;
+    padding: 10px 5px;
+    margin: 10px 0;
+}
+
+.settings .color-option h3,
+.settings .background-option h3 {
+    margin: 0 0 10px;
+    font-weight: normal;
+    color: var(--main-color);
+}
+
+.settings .color-option li {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.settings .color-option li.active {
+    border: 2px solid #FFF;
+    position: relative;
+}
+
+.settings .color-option li.active::after {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f00c';
+    position: absolute;
+    font-weight: 900;
+    color: #FFF;
+    font-size: 8px;
+    border: 1px solid #FFF;
+    top: -1px;
+    right: -1px;
+    padding: 1px;
+}
+
+.settings .background-option .back-control span {
+    display: inline-block;
+    width: 100px;
+    background-color: var(--main-color);
+    color: var(--white-color);
+    border-radius: var(--border-radius);
+    font-size: var(--small-x-font);
+    padding: 3px 0;
+    cursor: pointer;
+    opacity: .7;
+    transition: opacity var(--main-transition);
+}
+
+.settings .background-option .back-control span.active {
+    opacity: 1;
+}
+
+
+/* End Settings */
+
+
 /* Start Header */
 
 .header {
@@ -157,8 +273,8 @@ a {
     background-image: url(../Img/head_1.jpeg);
     background-position: center;
     background-attachment: fixed;
-    background-size: cover;
     object-fit: cover;
+    transition: var(--main-transition);
 }
 
 
@@ -169,6 +285,14 @@ a {
     position: fixed;
     width: 100%;
     top: 0;
+    transition: padding var(--main-transition);
+}
+
+@media (max-width:767px) {
+    .header .navbar {
+        flex-direction: column;
+        height: 100px;
+    }
 }
 
 .header .logo {
@@ -177,10 +301,11 @@ a {
     font-weight: normal;
 }
 
-.header .logo span {
-    background-color: var(--white-color);
-    padding: 2px 5px;
-    border-radius: 5px;
+@media (max-width:767px) {
+    .header .logo {
+        margin-left: 10px;
+        margin-top: 15px;
+    }
 }
 
 .header .links {
@@ -214,6 +339,15 @@ a {
     transition: var(--main-transition);
 }
 
+@media (max-width:767px) {
+    .header .links {
+        font-size: var(--small-font);
+    }
+    .header .link-mega {
+        width: 95px;
+    }
+}
+
 .header .link-mega.show {
     opacity: 1;
     pointer-events: all;
@@ -227,6 +361,7 @@ a {
     border-color: transparent transparent var(--main-color-alt) transparent;
     top: -30px;
     right: 40px;
+    cursor: pointer;
 }
 
 .header .link-mega li a {
@@ -252,5 +387,126 @@ a {
 
 /* End navbar */
 
+.header .container {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+/* Start The Slider Header */
+
+.container .slider-header {
+    position: relative;
+}
+
+.slider-header .slide {
+    width: 100vw;
+    background-color: var(--main-back-rgba);
+    color: var(--white-color);
+    padding: 50px 0;
+    display: none;
+}
+
+.slider-header .slide.active.right {
+    display: block;
+    animation: rightshow .4s linear;
+}
+
+.slider-header .slide.active.left {
+    display: block;
+    animation: leftshow .4s linear;
+}
+
+.slider-header .slide>h1 {
+    font-size: 50px;
+    margin: 0 0 20px;
+}
+
+@media (max-width:767px) {
+    .slider-header .slide>h1 {
+        font-size: 30px;
+    }
+}
+
+.slider-header .slide>span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.slider-header .slide>p {
+    font-size: var(--small-font);
+    line-height: var(--line-x-height);
+    margin-top: 20px;
+    max-width: 350px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width:767px) {
+    .slider-header .slide>span {
+        font-size: var(--small-font);
+    }
+    .slider-header .slide>p {
+        max-width: 300px;
+    }
+}
+
+.header .arrow {
+    position: absolute;
+    width: 100%;
+    color: var(--main-color-alt);
+}
+
+.header .arrow i {
+    background-color: var(--white-color);
+    width: 35px;
+    height: 35px;
+    border-radius: var(--border-radius);
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity var(--main-transition);
+}
+
+.header .arrow i.left {
+    left: 10px;
+}
+
+.header .arrow i.right {
+    right: 10px;
+}
+
+.header .arrow i:hover {
+    opacity: .8;
+}
+
+
+/* End The Slider Header */
+
 
 /* End Header */
+
+
+/* Start Animation */
+
+@keyframes rightshow {
+    0% {
+        opacity: 0;
+        transform: translateX(50%);
+    }
+}
+
+@keyframes leftshow {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%);
+    }
+}
+
+
+/* End Animation */
