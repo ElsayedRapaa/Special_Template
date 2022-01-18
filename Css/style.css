@@ -8,7 +8,7 @@
     --dark-color: #333;
     --white-color: #FFF;
     --padding-section: 100px;
-    --main-transition: 300ms;
+    --main-transition: 300ms ease-in-out;
     --border-radius: 5px;
     --border-color: #EEE;
     --smaller-font: 10px;
@@ -97,6 +97,15 @@ a {
     gap: 30px;
 }
 
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .container {
     padding-left: 20px;
     padding-right: 20px;
@@ -145,6 +154,11 @@ a {
 
 .header {
     position: relative;
+    background-image: url(../Img/head_1.jpeg);
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    object-fit: cover;
 }
 
 
@@ -157,8 +171,82 @@ a {
     top: 0;
 }
 
-.header .navbar .links li {
+.header .logo {
+    color: var(--white-color);
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.header .logo span {
+    background-color: var(--white-color);
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+.header .links {
+    position: relative;
+}
+
+.header .links>li {
     display: inline-block;
+}
+
+.header .links>li>a {
+    color: var(--white-color);
+    display: block;
+    padding: 0 10px;
+    line-height: 50px;
+    transition: background var(--main-transition);
+}
+
+.header .links>li>a:hover {
+    background-color: var(--main-color-alt);
+}
+
+.header .link-mega {
+    position: absolute;
+    top: 150%;
+    right: 3px;
+    background-color: var(--main-color-alt);
+    width: 107px;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--main-transition);
+}
+
+.header .link-mega.show {
+    opacity: 1;
+    pointer-events: all;
+    top: 100%;
+}
+
+.header .link-mega::after {
+    content: '';
+    position: absolute;
+    border: 15px solid;
+    border-color: transparent transparent var(--main-color-alt) transparent;
+    top: -30px;
+    right: 40px;
+}
+
+.header .link-mega li a {
+    color: var(--white-color);
+    display: block;
+    padding: 8px 10px;
+    font-size: var(--small-font);
+    transition: background var(--main-transition);
+}
+
+.header .link-mega li:not(:last-of-type) {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header .link-mega li:first-of-type {
+    border-top: 1px solid var(--border-color);
+}
+
+.header .link-mega li a:hover {
+    background-color: var(--main-color);
 }
 
 
