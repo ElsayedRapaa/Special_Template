@@ -13,7 +13,7 @@ let back_List = ['../Img/head_1.jpeg', '../Img/head_2.jpeg', '../Img/head_3.jpeg
 // Selector Header Elelemnts
 let the_Header = document.querySelector('.header'),
     the_Navbar = document.querySelector('.header .navbar'),
-    the_Container = document.querySelector('.articles .container'),
+    the_Container = document.querySelector('.container'),
     all_Links = document.querySelectorAll('.links li a'),
     open_Menu = document.querySelector('.open-mega'),
     mega_Menu = document.querySelector('.link-mega'),
@@ -21,6 +21,12 @@ let the_Header = document.querySelector('.header'),
     slider_Next = document.querySelector('.header .arrow .right'),
     slider_Prev = document.querySelector('.header .arrow .left'),
     slider_P = document.querySelectorAll('.slide p');
+
+// Selector The Articles Elements
+let the_Articles = document.querySelector('.articles'),
+    art_Cont = document.querySelector('.articles .container'),
+    art_Read_More = document.querySelectorAll('.articles .box .front .read-more'),
+    back_Read_More = document.querySelectorAll('.articles .box .back');
 
 // Stop Propagation Settings
 the_Settings.addEventListener('click', function(e) {
@@ -31,18 +37,6 @@ the_Settings.addEventListener('click', function(e) {
 open_Settings.onclick = function() {
     open_Icon.classList.toggle('fa-spin');
     the_Settings.classList.toggle('open');
-    if (the_Settings.classList.contains('open')) {
-        document.body.style.paddingLeft = `${the_Settings.clientWidth}px`;
-        the_Navbar.style.paddingRight = `${(the_Settings.clientWidth + 55)}px`;
-    } else {
-        document.body.style.paddingLeft = `0`;
-        the_Navbar.style.paddingRight = `${(window.innerWidth - the_Container.clientWidth) / 2}px`;
-    };
-
-    if (window.innerWidth <= 767 && the_Settings.classList.contains('open')) {
-        document.body.style.paddingLeft = '0';
-        the_Navbar.style.paddingRight = `0`;
-    };
 };
 
 // Get The Color From Local Storage
@@ -188,8 +182,8 @@ back_Controls.forEach((btn) => {
 document.body.style.paddingTop = the_Navbar.clientHeight + 'px';
 
 // Reset The Width Navbar and Padding
-the_Navbar.style.paddingLeft = `${(window.innerWidth - the_Container.clientWidth) / 2}px`;
-the_Navbar.style.paddingRight = `${(window.innerWidth - the_Container.clientWidth) / 2}px`;
+the_Navbar.style.paddingLeft = `${(window.innerWidth - the_Container.clientWidth) / 2 + 55}px`;
+the_Navbar.style.paddingRight = `${(window.innerWidth - the_Container.clientWidth) / 2 + 55}px`;
 
 // On Resize Window
 window.onresize = function() {
@@ -197,17 +191,11 @@ window.onresize = function() {
     document.body.style.paddingTop = the_Navbar.clientHeight + 'px';
 
     // Reset the Width navbar and Padding
-    the_Navbar.style.paddingLeft = `${(window.innerWidth - the_Container.clientWidth) / 2}px`;
-    the_Navbar.style.paddingRight = `${(window.innerWidth - the_Container.clientWidth) / 2}px`;
+    the_Navbar.style.paddingLeft = `${(window.innerWidth - the_Container.clientWidth) / 2 + 55}px`;
+    the_Navbar.style.paddingRight = `${(window.innerWidth - the_Container.clientWidth) / 2 + 55}px`;
 
     // Add Setting Header
     the_Header.style.height = `${(window.innerHeight - the_Navbar.clientHeight)}px`;
-
-    // Settings The Body With Settings Bar
-    if (window.innerWidth <= 767 && the_Settings.classList.contains('open')) {
-        document.body.style.paddingLeft = '0';
-        the_Navbar.style.paddingRight = `0`;
-    };
 };
 
 // Add Setting Header
@@ -270,3 +258,31 @@ function prev() {
 // Check Arrow
 slider_Next.onclick = next;
 slider_Prev.onclick = prev;
+
+art_Read_More.forEach((arrow) => {
+
+    arrow.addEventListener('click', function(e) {
+
+        back_Read_More.forEach((back) => {
+
+            if (back.classList.contains(e.target.dataset.readmore)) {
+
+                back.style.left = '0';
+
+            };
+
+            let close = document.querySelectorAll('.articles .box .back > i');
+
+            close.forEach((close) => {
+
+                close.addEventListener('click', function(e) {
+                    e.target.parentNode.style.left = '-100%';
+                })
+
+            })
+
+        });
+
+    });
+
+});
