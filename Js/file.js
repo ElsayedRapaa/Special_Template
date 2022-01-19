@@ -28,6 +28,15 @@ let the_Articles = document.querySelector('.articles'),
     art_Read_More = document.querySelectorAll('.articles .box .front .read-more'),
     back_Read_More = document.querySelectorAll('.articles .box .back');
 
+// Selector The Gallary Elements
+let the_Gallary = document.querySelector('.gallary'),
+    the_Cover = document.querySelector('.gallary .cover'),
+    cover_Img = document.querySelector('.gallary .cover img'),
+    slide_Img = document.querySelector('.gallary .img'),
+    gallary_Img = document.querySelectorAll('.gallary .img img'),
+    prev_Img = document.querySelector('.gallary .arrow .left'),
+    next_Img = document.querySelector('.gallary .arrow .right');
+
 // Stop Propagation Settings
 the_Settings.addEventListener('click', function(e) {
     e.stopPropagation();
@@ -185,6 +194,12 @@ document.body.style.paddingTop = the_Navbar.clientHeight + 'px';
 the_Navbar.style.paddingLeft = `${(window.innerWidth - the_Container.clientWidth) / 2 + 55}px`;
 the_Navbar.style.paddingRight = `${(window.innerWidth - the_Container.clientWidth) / 2 + 55}px`;
 
+// Reset The Width Navbar and Padding
+if (window.innerWidth < 500) {
+    the_Navbar.style.paddingLeft = `${(window.innerWidth - the_Container.clientWidth) / 2}px`;
+    the_Navbar.style.paddingRight = `${(window.innerWidth - the_Container.clientWidth) / 2}px`;
+};
+
 // On Resize Window
 window.onresize = function() {
     // Padding Top Body
@@ -193,6 +208,12 @@ window.onresize = function() {
     // Reset the Width navbar and Padding
     the_Navbar.style.paddingLeft = `${(window.innerWidth - the_Container.clientWidth) / 2 + 55}px`;
     the_Navbar.style.paddingRight = `${(window.innerWidth - the_Container.clientWidth) / 2 + 55}px`;
+
+    // Reset The Width Navbar and Padding
+    if (window.innerWidth < 500) {
+        the_Navbar.style.paddingLeft = `${(window.innerWidth - the_Container.clientWidth) / 2}px`;
+        the_Navbar.style.paddingRight = `${(window.innerWidth - the_Container.clientWidth) / 2}px`;
+    };
 
     // Add Setting Header
     the_Header.style.height = `${(window.innerHeight - the_Navbar.clientHeight)}px`;
@@ -259,30 +280,129 @@ function prev() {
 slider_Next.onclick = next;
 slider_Prev.onclick = prev;
 
+// Read More For Each
 art_Read_More.forEach((arrow) => {
 
+    // Click In The Read More
     arrow.addEventListener('click', function(e) {
 
+        // The Back For Each
         back_Read_More.forEach((back) => {
 
+            // Info Is Visibile
             if (back.classList.contains(e.target.dataset.readmore)) {
-
                 back.style.left = '0';
-
             };
 
+            // The Close Icon
             let close = document.querySelectorAll('.articles .box .back > i');
 
+            // Close The Back Info Read More
             close.forEach((close) => {
-
                 close.addEventListener('click', function(e) {
                     e.target.parentNode.style.left = '-100%';
-                })
-
-            })
-
+                });
+            });
         });
-
     });
+});
+
+// let the_Gallary = document.querySelector('.gallary'),
+//     the_Cover = document.querySelector('.gallary .cover'),
+//     cover_Img = document.querySelector('.gallary .cover img'),
+//     slide_Img = document.querySelector('.gallary .img'),
+//     gallary_Img = document.querySelectorAll('.gallary .img img');
+
+// Click in Cover Img
+cover_Img.addEventListener('click', function(e) {
+
+    // Create Overlay Element
+    let overlay = document.createElement('div');
+    // Add Class Overlay 
+    overlay.classList.add('overlay');
+    overlay.classList.add('flex-r-center');
+
+
+    // Create The Img
+    let coverimg = document.createElement('img');
+    coverimg.classList.add('coverimg');
+    coverimg.src = e.target.src;
+
+    // Close Img
+    let close = document.createElement('i');
+    close.classList.add('fas');
+    close.classList.add('fa-times');
+    close.classList.add('close-cover');
+
+    // Close The Overlay Img
+    close.onclick = function() {
+        overlay.remove();
+    };
+
+    // Append The Close To Overlay
+    overlay.appendChild(close);
+    // Append The coverimg To Overlay
+    overlay.appendChild(coverimg);
+    // Append Overlay To Gallary Section
+    the_Gallary.appendChild(overlay);
 
 });
+
+// Index For Slider Gallary
+let index2;
+
+// Img Gallary For Each
+gallary_Img.forEach((img, i) => {
+
+    // Click In Img From Img Gallary
+    img.addEventListener('click', function(e) {
+
+        // Remove Class Active
+        gallary_Img.forEach((img2) => {
+            img2.classList.remove('active');
+        });
+
+        // Add Class Active In Clicked Img
+        e.target.classList.add('active');
+
+        // Reset Index Number
+        index2 = i;
+
+        // Change The Src Cover Img To Img Click Src
+        cover_Img.src = e.target.src;
+
+    });
+});
+
+// Check Btns Slider The Gallary
+function nextImg() {
+    if (index2 < gallary_Img.length - 1) {
+        gallary_Img[index2].classList.remove('active');
+        gallary_Img[index2++];
+        gallary_Img[index2].classList.add('active');
+        cover_Img.src = gallary_Img[index2].src;
+    } else {
+        gallary_Img[index2].classList.remove('active');
+        index2 = 0;
+        gallary_Img[index2].classList.add('active');
+        cover_Img.src = gallary_Img[index2].src;
+    };
+};
+
+function prevImg() {
+    if (index2 === 0) {
+        gallary_Img[index2].classList.remove('active');
+        index2 = gallary_Img.length - 1;
+        gallary_Img[index2].classList.add('active');
+        cover_Img.src = gallary_Img[index2].src;
+    } else {
+        gallary_Img[index2].classList.remove('active');
+        gallary_Img[index2--];
+        gallary_Img[index2].classList.add('active');
+        cover_Img.src = gallary_Img[index2].src;
+    };
+};
+
+// Run SLider Gallary
+next_Img.onclick = nextImg;
+prev_Img.onclick = prevImg;
