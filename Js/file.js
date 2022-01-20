@@ -307,12 +307,6 @@ art_Read_More.forEach((arrow) => {
     });
 });
 
-// let the_Gallary = document.querySelector('.gallary'),
-//     the_Cover = document.querySelector('.gallary .cover'),
-//     cover_Img = document.querySelector('.gallary .cover img'),
-//     slide_Img = document.querySelector('.gallary .img'),
-//     gallary_Img = document.querySelectorAll('.gallary .img img');
-
 // Click in Cover Img
 cover_Img.addEventListener('click', function(e) {
 
@@ -382,7 +376,7 @@ function nextImg() {
         gallary_Img[index2].classList.add('active');
         cover_Img.src = gallary_Img[index2].src;
     } else {
-        gallary_Img[index2].classList.remove('active');
+        gallary_Img[gallary_Img.length - 1].classList.remove('active');
         index2 = 0;
         gallary_Img[index2].classList.add('active');
         cover_Img.src = gallary_Img[index2].src;
@@ -406,3 +400,8 @@ function prevImg() {
 // Run SLider Gallary
 next_Img.onclick = nextImg;
 prev_Img.onclick = prevImg;
+
+// For Reset The Gallary
+window.onload = function() {
+    next_Img.click();
+};
