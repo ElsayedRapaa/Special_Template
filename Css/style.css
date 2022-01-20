@@ -37,6 +37,10 @@
     background-color: var(--main-color);
 }
 
+body {
+    transition: background var(--main-transition);
+}
+
 body.cairo {
     font-family: 'Cairo', sans-serif;
 }
@@ -223,7 +227,7 @@ a {
     left: -250px;
     background-color: #EEE;
     z-index: 9999;
-    transition: left var(--main-transition);
+    transition: left var(--main-transition), background var(--main-transition);
 }
 
 .settings.open {
@@ -248,7 +252,8 @@ a {
 }
 
 .settings .color-option,
-.settings .background-option {
+.settings .background-option,
+.settings .dark-mood {
     background-color: #DDD;
     border-radius: 10px;
     padding: 10px 5px;
@@ -256,9 +261,11 @@ a {
 }
 
 .settings .color-option h3,
-.settings .background-option h3 {
+.settings .background-option h3,
+.settings .dark-mood h3 {
     margin: 0 0 10px;
     font-weight: normal;
+    font-size: 16px;
     color: var(--main-color);
 }
 
@@ -303,6 +310,44 @@ a {
 
 .settings .background-option .back-control span.active {
     opacity: 1;
+}
+
+.settings .dark-mood .option-mood {
+    padding: 10px;
+}
+
+.settings .dark-mood .mood-text {
+    color: var(--main-color);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.settings .dark-mood .opt-mood {
+    position: relative;
+    border: 1px solid var(--main-color);
+    width: 50px;
+    height: 25px;
+    padding: 0 3px;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+.settings .dark-mood .opt-mood .click-mood {
+    display: block;
+    border: 1px solid var(--main-color);
+    background-color: var(--main-back-color);
+    width: 20px;
+    height: 20px;
+    top: 1px;
+    right: 25px;
+    border-radius: 50%;
+    position: absolute;
+    cursor: pointer;
+    transition: right var(--main-transition);
+}
+
+.settings .dark-mood .opt-mood .click-mood.click {
+    right: 3px;
 }
 
 
@@ -547,6 +592,7 @@ a {
     border-radius: 10px;
     overflow: hidden;
     position: relative;
+    border-bottom: 1px solid #EEE;
 }
 
 .articles .box .full-img img {
@@ -569,6 +615,7 @@ a {
     margin: 10px 0;
     font-size: var(--small-x-font);
     line-height: var(--line-s-height);
+    color: var(--gray-color);
 }
 
 .articles .box .text .read-more {

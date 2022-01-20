@@ -3,7 +3,10 @@ let the_Settings = document.querySelector('.settings'),
     open_Settings = document.querySelector('.settings .open-set'),
     open_Icon = document.querySelector('.settings .open-set i'),
     the_Colors = document.querySelectorAll('.color-option ul li'),
-    back_Controls = document.querySelectorAll('.back-control span');
+    back_Controls = document.querySelectorAll('.back-control span'),
+    mood_Text = document.querySelector('.dark-mood .mood-text'),
+    opt_Mood = document.querySelector('.dark-mood .opt-mood'),
+    click_Mood = document.querySelector('.dark-mood .click-mood');
 
 // The List Landing Background
 let back_List = ['../Img/head_1.jpeg', '../Img/head_2.jpeg', '../Img/head_3.jpeg', '../Img/head_4.jpeg', '../Img/head_5.jpeg', '../Img/head_6.jpeg', '../Img/head_7.jpeg', '../Img/head_8.jpeg', '../Img/head_9.jpeg', '../Img/head_10.jpeg'],
@@ -25,6 +28,7 @@ let the_Header = document.querySelector('.header'),
 // Selector The Articles Elements
 let the_Articles = document.querySelector('.articles'),
     art_Cont = document.querySelector('.articles .container'),
+    the_Art_Box = document.querySelectorAll('.articles .box'),
     art_Read_More = document.querySelectorAll('.articles .box .front .read-more'),
     back_Read_More = document.querySelectorAll('.articles .box .back');
 
@@ -186,6 +190,46 @@ back_Controls.forEach((btn) => {
 
     });
 });
+
+let the_Mood = localStorage.getItem('dark-mood');
+
+if (the_Mood !== null) {
+
+    if (the_Mood === 'true') {
+        click_Mood.classList.add('click');
+        mood_Text.textContent = 'Dark Mood';
+        document.body.style.backgroundColor = '#000';
+        the_Settings.style.backgroundColor = '#000';
+    } else {
+        click_Mood.classList.remove('click');
+        mood_Text.textContent = 'Light Mood';
+        document.body.style.backgroundColor = '#FFF';
+        the_Settings.style.backgroundColor = '#EEE';
+    }
+
+};
+
+// The Dark Mood
+opt_Mood.onclick = function() {
+
+    click_Mood.classList.toggle('click');
+    if (click_Mood.classList.contains('click')) {
+
+        mood_Text.textContent = 'Dark Mood';
+        document.body.style.backgroundColor = '#000';
+        the_Settings.style.backgroundColor = '#000';
+        localStorage.setItem('dark-mood', true);
+
+    } else {
+        mood_Text.textContent = 'Light Mood';
+        document.body.style.backgroundColor = '#FFF';
+        the_Settings.style.backgroundColor = '#EEE';
+        localStorage.setItem('dark-mood', false);
+    }
+
+}
+
+console.log(the_Art_Box);
 
 // Padding Top Body
 document.body.style.paddingTop = the_Navbar.clientHeight + 'px';
