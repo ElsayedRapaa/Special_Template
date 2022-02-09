@@ -14,7 +14,8 @@ let back_List = ['../Img/head_1.jpeg', '../Img/head_2.jpeg', '../Img/head_3.jpeg
     background_Options = false;
 
 // Selector Header Elelemnts
-let the_Header = document.querySelector('.header'),
+let sections = document.querySelectorAll('.section'),
+    the_Header = document.querySelector('.header'),
     the_Navbar = document.querySelector('.header .navbar'),
     the_Container = document.querySelector('.container'),
     all_Links = document.querySelectorAll('.links li a'),
@@ -40,6 +41,61 @@ let the_Gallary = document.querySelector('.gallary'),
     gallary_Img = document.querySelectorAll('.gallary .img img'),
     prev_Img = document.querySelector('.gallary .arrow .left'),
     next_Img = document.querySelector('.gallary .arrow .right');
+
+// Selector The Skills Elements
+let our_Skills = document.querySelector('.our-skills'),
+    skills_Name = document.querySelectorAll('.our-skills .skill .skill-text'),
+    skills_Num = document.querySelectorAll('.our-skills .skill-num'),
+    skills_Prog = document.querySelectorAll('.our-skills .skill-prog span'),
+    state_Skills = false;
+
+// Selector The Testimonials Elements
+let testimonials = document.querySelectorAll('.testimonials .box');
+
+// Selector The Top Vidoes
+let the_Vid = document.querySelector('.videos .box .vid'),
+    play_Screen = document.querySelector('.videos .box .vid .play-screen'),
+    play_Screen_icon = document.querySelector('.videos .box .vid .play-screen i'),
+    vid_Time = document.querySelector('#vid-time'),
+    the_Backward = document.querySelector('.videos .backward'),
+    the_Forward = document.querySelector('.videos .forward'),
+    the_Pause = document.querySelector('.videos .pause'),
+    the_Volume = document.querySelector('.videos .volume'),
+    range_Vol = document.querySelector('#cont-volume'),
+    num_Vol = document.querySelector('.vol-num'),
+    start_Time = document.querySelector('.vid-time .start-time'),
+    vid_List = document.querySelector('.videos .vid-list');
+
+// The Up Arrow
+let arrow_Up = document.querySelector('.up');
+
+// The Window Scroll
+window.onscroll = function() {
+    if (window.scrollY >= 500) {
+        arrow_Up.classList.add('show');
+        arrow_Up.onclick = function() {
+            window.scrollTo(0, 0);
+        };
+    } else {
+        arrow_Up.classList.remove('show');
+    };
+
+    if (window.scrollY > our_Skills.offsetTop - 100) {
+
+        //  The Progress Skills Background
+        skills_Prog.forEach((prog) => {
+            prog.style.width = parseInt(prog.dataset.skills) + '%';
+        });
+
+        // The Skills Number Progress Skill
+        if (!state_Skills) {
+            skills_Num.forEach((num) => {
+                count_Prog(num);
+            });
+        };
+        state_Skills = true;
+    };
+};
 
 // Stop Propagation Settings
 the_Settings.addEventListener('click', function(e) {
@@ -197,11 +253,14 @@ if (the_Mood !== null) {
 
     if (the_Mood === 'true') {
         click_Mood.classList.add('click');
+        document.body.classList.add('dark');
         mood_Text.textContent = 'Dark Mood';
         document.body.style.backgroundColor = '#000';
+        document.body.style.color = '#FFF';
         the_Settings.style.backgroundColor = '#000';
     } else {
         click_Mood.classList.remove('click');
+        document.body.classList.remove('dark');
         mood_Text.textContent = 'Light Mood';
         document.body.style.backgroundColor = '#FFF';
         the_Settings.style.backgroundColor = '#EEE';
@@ -216,20 +275,21 @@ opt_Mood.onclick = function() {
     if (click_Mood.classList.contains('click')) {
 
         mood_Text.textContent = 'Dark Mood';
+        document.body.classList.add('dark');
         document.body.style.backgroundColor = '#000';
+        document.body.style.color = '#FFF';
         the_Settings.style.backgroundColor = '#000';
         localStorage.setItem('dark-mood', true);
 
     } else {
         mood_Text.textContent = 'Light Mood';
+        document.body.classList.remove('dark');
         document.body.style.backgroundColor = '#FFF';
         the_Settings.style.backgroundColor = '#EEE';
         localStorage.setItem('dark-mood', false);
-    }
+    };
 
-}
-
-console.log(the_Art_Box);
+};
 
 // Padding Top Body
 document.body.style.paddingTop = the_Navbar.clientHeight + 'px';
@@ -279,8 +339,12 @@ all_Links.forEach((link) => {
             e.stopPropagation();
             // Toggle Class Show In Mega Menu
             mega_Menu.classList.toggle('show');
-
         };
+
+        // Scroll Section
+        document.querySelector(e.target.dataset.section).scrollIntoView({
+            behavior: 'smooth',
+        });
     });
 });
 
@@ -445,7 +509,239 @@ function prevImg() {
 next_Img.onclick = nextImg;
 prev_Img.onclick = prevImg;
 
-// For Reset The Gallary
+// Function Progress Numbers
+function count_Prog(num) {
+
+    // Get The Skills Number
+    let target = parseInt(num.dataset.skills);
+
+    // Set Interval 
+    let num_prog_Interval = setInterval(() => {
+        num.textContent++;
+        if (num.textContent == target) {
+            clearInterval(num_prog_Interval);
+            num.textContent = num.textContent + '%';
+        };
+    }, 2000 / target);
+};
+
+
+// he Testimonials Slide
+let index3 = 0;
+
+setInterval(() => {
+    testi_Slide();
+}, 3000);
+
+function testi_Slide() {
+    testimonials[index3].classList.remove('active');
+    index3 = [index3 + 1] % testimonials.length;
+    testimonials[index3].classList.add('active');
+};
+
+// The Top Videos Section
+let the_Video = document.createElement('video'),
+    index_Music = 0,
+    playing = false,
+    index_forEach,
+    timer;
+
+// This Is The Object
+const the_Info = [{
+    path: '../Video/Music Before Exame.mp4',
+    name: 'Music Before Exame'
+}, {
+    path: '../Video/Bad Player Fottbal.mp4',
+    name: 'Bad Player Fottbal'
+}, {
+    path: '../Video/Music The World.mp4',
+    name: 'Music The World'
+}, {
+    path: '../Video/Music Your The Love.mp4',
+    name: 'Music Your The Love'
+}, {
+    path: '../Video/Thank You Allah.mp4',
+    name: 'Thank You Allah'
+}, {
+    path: '../Video/Woman In Islamic.mp4',
+    name: 'Woman In Islamic'
+}];
+
+// Create Elements Videos Number
+for (let i = 0; i < the_Info.length; i++) {
+
+    let the_Parent = document.createElement('div'),
+        name_List = document.createElement('div'),
+        time_List = document.createElement('div');
+    the_Parent.classList.add('parent');
+    the_Parent.setAttribute('data-vid', the_Info[i].path);
+    name_List.classList.add('name');
+    name_List.textContent = the_Info[i].name;
+    the_Parent.appendChild(name_List);
+    vid_List.appendChild(the_Parent);
+};
+
+let the_Parent = document.querySelectorAll('.parent');
+
+the_Vid.appendChild(the_Video);
+
+click_Vid_Name(index_forEach);
+
+// Get The Info Function
+function all_Info(index) {
+    the_Video.src = the_Info[index].path;
+    the_Video.load();
+    timer = setInterval(range_Time, 1000);
+};
+
+// Run The Function
+all_Info(index_Music);
+
+// Play the Videos And Add Class Active In Parent Element
+function click_Vid_Name(index_for) {
+    the_Parent.forEach((vid, i) => {
+        vid.addEventListener('click', function(e) {
+            the_Parent.forEach((vid2) => {
+                vid2.classList.remove('active');
+            });
+            index_for = i;
+            if (e.target.dataset.vid == the_Info[i].path || e.target.parentNode.dataset.vid == the_Info[i].path) {
+                all_Info(index_for);
+                played();
+                e.target.classList.add('active');
+                e.target.parentNode.classList.add('active');
+            };
+            index_Music = i;
+        });
+    });
+};
+
+// Btn Play the Vidoe
+function play() {
+    if (playing == false) {
+        played();
+    } else {
+        noplayed();
+    };
+
+    // Hide The Vidow Icons From Vidoe Screen After 3 Seconds
+    setTimeout(() => {
+        play_Screen.classList.add('hide');
+    }, 3000);
+};
+
+// Play Video
+function played() {
+    playing = true;
+    play_Screen.innerHTML = '<i class="fas fa-pause"></i>';
+    the_Pause.innerHTML = '<i class="fas fa-pause"></i>';
+    the_Video.play();
+};
+
+// Stop Video
+function noplayed() {
+    playing = false;
+    play_Screen.innerHTML = '<i class="fas fa-play"></i>';
+    the_Pause.innerHTML = '<i class="fas fa-play"></i>';
+    the_Video.pause();
+};
+
+// Next Video
+function next_Vid() {
+    if (index_Music < the_Info.length - 1) {
+        index_Music++;
+        all_Info(index_Music);
+        the_Parent[index_Music - 1].classList.remove('active');
+        the_Parent[index_Music].classList.add('active');
+    } else {
+        index_Music = 0;
+        all_Info(index_Music);
+        the_Parent[the_Info.length - 1].classList.remove('active');
+        the_Parent[index_Music].classList.add('active');
+    };
+    played();
+};
+
+// Prev Video
+function prev_Vid() {
+    if (index_Music == 0) {
+        index_Music = the_Info.length - 1;
+        all_Info(index_Music);
+        the_Parent[0].classList.remove('active');
+        the_Parent[the_Info.length - 1].classList.add('active');
+    } else {
+        index_Music--;
+        all_Info(index_Music);
+        the_Parent[index_Music + 1].classList.remove('active');
+        the_Parent[index_Music].classList.add('active');
+    };
+    played();
+};
+
+// Volume Controls
+function volume() {
+    num_Vol.textContent = range_Vol.value;
+    the_Video.volume = range_Vol.value / 100;
+};
+
+// The Mute Video
+function mute() {
+    if (num_Vol.textContent > 0) {
+        the_Volume.innerHTML = '<i class="fas fa-volume-down"></i>';
+        num_Vol.textContent = 0;
+        range_Vol.value = 0;
+        the_Video.volume = 0 / 100;
+    } else {
+        the_Volume.innerHTML = '<i class="fas fa-volume-up"></i>';
+        the_Video.volume = 50 / 100;
+        range_Vol.value = 50;
+        num_Vol.textContent = 50;
+    };
+};
+
+// The Time Vidoes
+function the_Time() {
+    let the_Current = the_Video.duration * (vid_Time.value / 100);
+    the_Video.currentTime = the_Current;
+};
+
+// The Range Slider
+function range_Time() {
+    let position = 0;
+    if (!isNaN(the_Video.duration)) {
+        position = the_Video.currentTime * (100 / the_Video.duration);
+        vid_Time.value = position;
+
+        let the_Start = Math.floor(the_Video.currentTime / 60),
+            the_Start2 = Math.floor(the_Video.currentTime % 60);
+
+        if (the_Start < 10) {
+            the_Start = `0${the_Start}`;
+        };
+
+        if (the_Start2 < 10) {
+            the_Start2 = `0${the_Start2}`;
+        };
+        start_Time.textContent = `${the_Start}:${the_Start2}`;
+    };
+    if (the_Video.ended) {
+        the_Forward.click();
+    };
+};
+
+// The Reset Settings
+document.querySelector('.settings .reset').onclick = function() {
+    localStorage.removeItem('option-background');
+    localStorage.removeItem('option-color');
+    localStorage.removeItem('option-back-color');
+    localStorage.removeItem('option-color-alt');
+    localStorage.removeItem('option-back-rgba');
+    localStorage.removeItem('dark-mood');
+    window.onload();
+};
+
+// For Reset The Gallary And Top Videos
 window.onload = function() {
     next_Img.click();
+    the_Parent[0].classList.add('active');
 };
